@@ -8,6 +8,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,12 +20,21 @@ import studentsEntry.studententry.services.StudentService;
 @RequestMapping("/se/api/v1/students")
 public class StudentControllers {
 
+    private static StudentService studentService;
+
     @Autowired
-    StudentService studentService;
+    public StudentControllers(StudentService studentService) {
+        StudentControllers.studentService = studentService;
+    }
+
 
     @GetMapping("")
     public List<Students> getStudents() { 
-        return StudentService.getStudents();
+        return studentService.getStudents();
     }
 
+    @PostMapping
+    public void registerNewStudent(@RequestBody Students student){
+        studentService.addNewStudent(student);
+    }
 }
