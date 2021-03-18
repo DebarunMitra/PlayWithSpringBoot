@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
+import studentsEntry.studententry.models.Quote;
 import studentsEntry.studententry.models.Students;
 import studentsEntry.studententry.services.StudentService;
 
@@ -35,6 +37,13 @@ public class StudentControllers {
     @GetMapping("")
     public List<Students> getStudents() { 
         return studentService.getStudents();
+    }
+
+    @GetMapping("/quotes")
+    public Quote getQuotes(){ 
+        RestTemplate restTemplate = new RestTemplate();
+        Quote quote = restTemplate.getForObject("https://quoters.apps.pcfone.io/api/random", Quote.class);
+        return quote;
     }
 
     @PostMapping
